@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Video Call</title>
+    <!-- Twilio Video CDN -->
+    <script src="//sdk.twilio.com/js/video/releases/2.27.0/twilio-video.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='styles/styles.css') }}"
+    />
+  </head>
+  <body>
+    <form id="room-name-form" class="container">
+      <div class="first-image">
+        <img
+          class="img-fluid"
+          src="{{ url_for('static',filename='images/main.gif') }}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="participant_name">Display Name</label>
+        <input
+          type="text"
+          class="form-control form-control"
+          id="participant_display_name"
+          name="participant_name"
+          aria-describedby="emailHelp"
+          placeholder="Enter Your Name"
+          required
+        />
+        <small id="emailHelp" class="form-text text-muted"
+          >Please enter a unique display name.</small
+        >
+      </div>
+      <button type="submit" class="btn btn-outline-dark">Join Room</button>
+    </form>
+
+    <div id="video-container" class="video-container"></div>
+    <div id="app-container"></div>
+    
+    <div id="user-controls">
+      <div id="basic-user-controls">
+        <button
+          type="button"
+          id="mute-audio"
+          class="btn btn-secondary m-1 btn-block"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Mute"
+        >
+          <i class="fa fa-microphone"></i>
+        </button>
+
+        <button
+          type="button"
+          id="hide-video"
+          class="btn btn-secondary m-1 btn-block"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Hide Video"
+        >
+          <i class="fa fa-video-camera"></i>
+        </button>
+
+        <button
+          type="button"
+          id="end-call"
+          class="btn btn-outline-danger m-1 btn-block"
+        >
+          <i
+            class="fa-solid fa-phone"
+            style="transform: rotate(137deg)"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="End Call"
+          ></i>
+        </button>
+      </div>
+      <div id="extra-user-controls">
+        <button
+          type="button"
+          id="call-config"
+          class="btn btn-outline-primary m-1 btn-block"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Change Camera/Mic"
+        >
+          <i class="fa fa-cog"></i>
+        </button>
+
+        <button
+          type="button"
+          id="screen-share"
+          class="btn btn-outline-primary m-1 btn-block"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Share Screen"
+        >
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+        </button>
+
+        <button
+          type="button"
+          id="white-board"
+          class="btn btn-outline-primary m-1 btn-block"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Whiteboard"
+        >
+          <i class="fa-solid fa-chalkboard"></i>
+        </button>
+
+        <button
+        type="button"
+        id="raise-hand"
+        class="btn btn-outline-primary m-1 btn-block"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="Raise Hand"
+        >
+          <i class="fa-solid fa-hand"></i>
+        </button>
+
+        <button
+          type="button"
+          id="chat-box"
+          class="btn btn-outline-primary m-1 btn-block"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Chat"
+        >
+          <i class="fa-solid fa-comments"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="call-config-div" class="call-config-div">
+      <span id="close-config-btn" class="text-danger close-btn"
+        ><i class="fa-solid fa-circle-xmark"></i></span
+      >
+      <div id="camera-selection"></div>
+      <div id="mic-selection"></div>
+    </div>
+
+    <div id="chat-box-div">
+      <span class="chat-close" id="chat-close"
+        ><i class="fa-solid fa-circle-chevron-up fa-rotate-180"></i
+      ></span>
+      <div class="chat-display" id="chat-display"></div>
+      <input
+        class="input-group bg-white chat-input border-primary"
+        id="chat-input"
+      />
+      <span class="chat-send text-primary" id="chat-send"
+        ><i class="fa-regular fa-paper-plane"></i
+      ></span>
+    </div>
+
+    <div id="white-board-controls">
+      <span class="m-1 white-board-buttons" id="reduce-brush-thickness"
+        ><i class="fa-solid fa-circle-minus"></i
+      ></span>
+      <span id="brush-thickness" class="m-1"></span>
+      <span class="m-1 white-board-buttons" id="add-brush-thickness"
+        ><i class="fa-solid fa-circle-plus"></i
+      ></span>
+      <input id="brush-color" type="color" style="margin: 4px" />
+      <span id="white-board-eraser" class="m-1 white-board-buttons"
+        ><i class="fa-solid fa-eraser"></i
+      ></span>
+    </div>
+
+    <script src="static/main.js"></script>
+    <script src="static/call-controls.js"></script>
+    <script src="static/screen-share.js"></script>
+    <script src="static/chat.js"></script>
+    <script src="static/call-config.js"></script>
+    <script src="static/white-board.js"></script>
+    <script src="static/gestures.js"></script>
+  </body>
+</html>

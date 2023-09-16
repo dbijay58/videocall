@@ -1,0 +1,25 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "prettier", "jest"],
+    "env": {
+      "node": true,
+      "browser": true,
+      "es6": true,
+      "jest/globals": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-var-requires": 0,
+      "no-case-declarations": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "_.*", "varsIgnorePattern": "_.*" }]
+      //    "max-len": [0, 120, 2, { "ignoreUrls": true }]
+    }
+  }
+  
